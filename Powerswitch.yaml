@@ -35,7 +35,7 @@ dashboard_import:
 
 packages:
   remote_package:
-    url: https://github.com/heronetnl/herotools/
+    url: https://github.com/Heronetnl/herotools/
     ref: main
     files:
       # Get basic file
@@ -45,6 +45,6 @@ packages:
       - Scripts/Language/nl-NL.yaml
 
       # 
-      - scripts/Devices/Kruitvat/Powerswitch/1-polig.yaml
+      - Scripts/Devices/Kruitvat/Powerswitch/1-polig.yaml
 
     refresh: 0d
