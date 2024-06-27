@@ -1,0 +1,65 @@
+preferences:
+  flash_write_interval: 120min
+
+web_server:
+  port: 80
+
+captive_portal:
+
+ota:
+
+mdns:
+
+# Get time
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+# Sensoren #
+sensor:
+
+  # Uptime
+  - platform: uptime
+    name: "${device_name} - ${Uptime}"
+    id: herotool_uptime
+
+  # Wifi signal
+  - platform: wifi_signal
+    name: "${device_name} - ${Wifi_signal}"
+    update_interval: 120s
+
+# Text sensoren #
+text_sensor:
+
+  # Wifi info
+  - platform: wifi_info
+    # Get ip address from device
+    ip_address:
+      name: "${device_name} - ${Ip_address}"
+      id: herotool_ip_adres
+      icon: mdi:ip-network
+    # Get ssid from device
+    ssid:
+      name: "${device_name} - ${Network}"
+      id: herotool_netwerk
+      icon: mdi:access-point-network
+    # Get Mac address from device
+    mac_address:
+      name: "${device_name} - ${Mac_address}"
+      id: herotool_mac_adres
+      icon: mdi:folder-key-network-outline
+
+# Buttons #
+button:
+
+  # Restart button
+  - platform: restart
+    name: "${device_name} ${Restart}"
+
+  # Shutdown button
+  - platform: shutdown
+    name: "${device_name} ${Shutdown}"
+
+  # Factory reset
+  - platform: factory_reset
+    name: "${Factory_reset} ${device_name}"
