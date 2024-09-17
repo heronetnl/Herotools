@@ -65,7 +65,7 @@ packages:
       # Get protocols file's
       - Scripts/Protocols/ESP32/S3/I2C/i2c_1.yaml
       - Scripts/Protocols/ESP32/S3/SPI/spi_1.yaml
-      - Scripts/Protocols/ESP32/S3/PIN/Dallas_1.yaml
+      - Scripts/Protocols/ESP32/S3/PIN/one-wire_1.yaml
 
       # Get sensor file's
       - Scripts/Sensoren/Dallas/ds18b20.yaml
