@@ -1,4 +1,4 @@
-dallas:
+one_wire:
   - pin: GPIO13
-    id: dallas_1
+    id: one_wire_1
     update_interval: 30s

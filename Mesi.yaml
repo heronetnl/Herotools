@@ -70,10 +70,10 @@ packages:
       # Get sensor file's
       - Scripts/Sensoren/Dallas/ds18b20.yaml
       - Scripts/Sensoren/AHT/10-20-21.yaml
-      - scripts/Sensoren/SGP/sgp30.yaml
-      - scripts/Sensoren/SGP/sgp4x.yaml
+      - Scripts/Sensoren/SGP/sgp30.yaml
+      - Scripts/Sensoren/SGP/sgp4x.yaml
       # Type of bme: bme280, bme680, bmp085, bmp280
-      - scripts/Sensoren/BME/bme680.yaml
+      - Scripts/Sensoren/BME/bme680.yaml
 
       # Type of pms: pmsx003, pms5003s, pms5003t, pms5003ts, false
       #- scripts/Sensoren/pms/pmsx003.yaml
@@ -81,3 +81,4 @@ packages:
       - Scripts/Devices/Heronet/Mesi/Mesi.yaml
 
     refresh: 0d
+    

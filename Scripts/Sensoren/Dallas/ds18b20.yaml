@@ -4,8 +4,7 @@ substitutions:
 
 sensor:
   # Dallas DS18B20 temperature sensor
-  - platform: dallas
-    dallas_id: dallas_1
+  - platform: dallas_temp
+    dallas_id: one_wire_1
     id: DS18B20_temp
     unit_of_measurement: ${TM}
-    index: 0
