@@ -1,3 +1,4 @@
 one_wire:
-  - pin: GPIO13
+  - platform: gpio
+    pin: GPIO13
     id: one_wire_1
