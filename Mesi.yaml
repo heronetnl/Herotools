@@ -21,7 +21,7 @@ substitutions:
   Use_Hum: "AHT"
 
 esp32:
-  board: esp32dev
+  board: esp32-s3-devkitc-1
 
 esphome:
   name: ${device_name}
