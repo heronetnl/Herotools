@@ -1,0 +1,4 @@
+dallas:
+  - pin: GPIO13
+    id: dallas_1
+    update_interval: 30s

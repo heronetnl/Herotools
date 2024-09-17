@@ -1,0 +1,21 @@
+---
+substitutions:
+  USE_BME: "true"
+
+sensor:
+  # BMP085 sensor for temperature, pressure and humidity.
+  # temperature and humidity data wil not be send to homeassistent
+  - platform: bmp085
+    temperature:
+      id: bme_temp
+      internal: true
+      unit_of_measurement: ${TM}
+      oversampling: 16x
+    pressure:
+      id: bme_pres
+      internal: true
+      oversampling: 16x
+    i2c_id: i2c_1
+    address: ${I2C_BME}
+    iir_filter: 16x
+    update_interval: 30s

@@ -1,0 +1,83 @@
+substitutions:
+  device_name: mesi
+  device_friendlyname: Multi_envi_sensor_inside
+  device_discription: "Multi enviroment sensor inside"
+
+  #### Measurement ####
+  # Type of measurement for temperature: °C for Celcius, °F for Fahrenheit
+  TM: "°C"
+
+  #### I2C Address ####
+
+  I2C_BME: "0x76"
+  I2C_SGP30: "0x58"
+
+  #### Use temperature sensor ####
+  # AHT, BME, DS18B20. (Default DS18B20)
+  Use_Temp: "DS18B20"
+
+  #### Use humidity sensor ####
+  # AHT, BME. (Default AHT)
+  Use_Hum: "AHT"
+
+esp32:
+  board: esp32dev
+
+esphome:
+  name: ${device_name}
+  friendly_name: ${device_friendlyname}
+  comment: "${device_discription}"
+  name_add_mac_suffix: false
+  project:
+    name: heronet.${device_name}
+    version: ${version}
+
+wifi:
+  # Remove leading '#' and fill in your wifi details
+  #ssid: !secret wifi_ssid
+  #password: !secret wifi_password
+  # Remove leading '#' if you want to a hidden ssid
+  #fast_connect: True
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: ${device_name}
+    ap_timeout: 10s
+
+api:
+
+dashboard_import:
+  package_import_url: github://heronetnl/Herotools/Mesi.yaml@main
+  import_full_config: true
+
+packages:
+  remote_package:
+    url: https://github.com/heronetnl/Herotools
+    ref: main
+    # Get file's
+    files:
+      # Get basic file
+      - Scripts/Basic.yaml
+
+      # Get language file
+      - Scripts/Language/nl-NL.yaml
+
+      # Get protocols file's
+      - Scripts/Protocols/ESP32/S3/I2C/i2c_1.yaml
+      - Scripts/Protocols/ESP32/S3/SPI/spi_1.yaml
+      - Scripts/Protocols/ESP32/S3/PIN/Dallas_1.yaml
+
+      # Get sensor file's
+      - Scripts/Sensoren/Dallas/ds18b20.yaml
+      - Scripts/Sensoren/AHT/10-20-21.yaml
+      - scripts/Sensoren/SGP/sgp30.yaml
+      - scripts/Sensoren/SGP/sgp4x.yaml
+      # Type of bme: bme280, bme680, bmp085, bmp280
+      - scripts/Sensoren/BME/bme680.yaml
+
+      # Type of pms: pmsx003, pms5003s, pms5003t, pms5003ts, false
+      #- scripts/Sensoren/pms/pmsx003.yaml
+
+      - Scripts/Devices/Heronet/Mesi/Mesi.yaml
+
+    refresh: 0d
