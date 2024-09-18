@@ -4,6 +4,7 @@ substitutions:
 
 sensor:
   - platform: aht10
+    variant: AHT10
     temperature:
       id: aht_temp
       unit_of_measurement: ${TM}
