@@ -55,6 +55,7 @@ text_sensor:
     name: "${device_name} - ${Uptime}"
     id: uptime_human
     icon: mdi:clock-start
+    entity_category: "diagnostic"
 
   # Wifi info
   - platform: wifi_info
