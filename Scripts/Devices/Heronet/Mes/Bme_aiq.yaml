@@ -1,0 +1,62 @@
+---
+substitutions:
+  USE_BME_EXTRA: "true"
+
+text_sensor:
+  - platform: bme68x_bsec2
+    iaq_accuracy:
+      name: ${Air_quality_accuracy}
+      filters:
+      - substitute:
+        - "Stabilizing -> ${Stabilizing}"
+        - "Uncertain -> ${Uncertain}"
+        - "Calibrating -> ${Calibrating}"
+        - "Calibrated -> ${Calibrated}"
+
+  - platform: template
+    name: "${Air_quality}"
+    icon: "mdi:seed"
+    lambda: |-
+      if (int(id(bme_aiq).state) <= 50){
+        return std::string("${Excellent}").c_str();
+      } else if (int(id(bme_aiq).state) >= 51 && (int(id(bme_aiq).state) <= 100)){
+        return std::string("${Good}").c_str();
+      } else if (int(id(bme_aiq).state) >= 101 && (int(id(bme_aiq).state) <= 150)){
+        return std::string("${Lightly_polluted}").c_str();
+      } else if (int(id(bme_aiq).state) >= 151 && (int(id(bme_aiq).state) <= 200)){
+        return std::string("${Moderately_polluted}").c_str();
+      } else if (int(id(bme_aiq).state) >= 201 && (int(id(bme_aiq).state) <= 250)){
+        return std::string("${Heavily_polluted}").c_str();
+      } else if (int(id(bme_aiq).state) >= 251 && (int(id(bme_aiq).state) <= 350)){
+        return std::string("${Severely_polluted}").c_str();
+      } else if (int(id(bme_aiq).state) >= 351){
+        return std::string("${Extremely_polluted}").c_str();
+      } else {
+        return std::string("${error}").c_str();
+      }
+
+
+sensor:
+  - platform: template
+    name: CO2 Equivalent
+    id: co2_equ
+    unit_of_measurement: "ppm"
+    device_class: "carbon_dioxide"
+    icon: 'mdi:molecule-co2'
+    lambda: |-
+      if (id(bme_co2).has_state()) {
+        return id(bme_co2).state;
+      }
+      return -999;
+
+  - platform: template
+    name: Breath VOC Equivalent
+    id: voc_equ
+    unit_of_measurement: "ppm"
+    device_class: "volatile_organic_compounds_parts"
+    icon: 'mdi:air-filter'
+    lambda: |-
+      if (id(bme_voc).has_state()) {
+        return id(bme_voc).state;
+      }
+      return -999;

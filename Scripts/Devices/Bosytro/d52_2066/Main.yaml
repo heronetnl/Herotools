@@ -1,0 +1,59 @@
+substitutions:
+  version: "0.0.1"
+
+logger:
+  baud_rate: 0
+
+tuya:
+  # DPIDs processed from schema model: ew5d8k
+
+sensor:
+  - platform: tuya
+    sensor_datapoint: 1
+    name: "${Total_Forward_Energy}"
+    unit_of_measurement: kWh
+    accuracy_decimals: 2
+    device_class: "energy"
+    state_class: "total_increasing"
+    filters:
+      - multiply: 0.01
+  - platform: tuya
+    sensor_datapoint: 104
+    name: "${Power_Factor}"
+    accuracy_decimals: 3
+    filters:
+      - multiply: 0.001
+  - platform: tuya
+    sensor_datapoint: 105
+    name: "${Supply_Frequency}"
+    unit_of_measurement: Hz
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.1
+  - platform: tuya
+    sensor_datapoint: 116
+    name: "${Output_Voltage}"
+    unit_of_measurement: "V"
+    accuracy_decimals: 1
+    device_class: "voltage"
+    state_class: "measurement"
+    filters:
+      - multiply: 0.1
+  - platform: tuya
+    sensor_datapoint: 117
+    name: "${Output_Current}"
+    unit_of_measurement: "A"
+    accuracy_decimals: 3
+    device_class: "current"
+    state_class: "measurement"
+    filters:
+      - multiply: 0.001
+  - platform: tuya
+    sensor_datapoint: 118
+    name: "${Output_Power}"
+    unit_of_measurement: kW
+    accuracy_decimals: 3
+    device_class: "power"
+    state_class: "measurement"
+    filters:
+      - multiply: 0.001

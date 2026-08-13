@@ -1,0 +1,75 @@
+substitutions:
+  version: "0.0.1"
+
+logger:
+  baud_rate: 0
+
+sensor:
+  - platform: template
+    name: "${Temperature}"
+    id: temperature
+    unit_of_measurement: ${TM}
+    device_class: "temperature"
+    icon: 'mdi:thermometer'
+    filters:
+      - offset: ${Offset_Temp}
+    lambda: |-
+      if (std::string("${Use_Temp}") == "DS18B20"){
+        return id(DS18B20_temp).state;
+      }
+      else if (std::string("${Use_Temp}") == "AHT"){
+        return id(aht_temp).state;
+      }
+      else if (std::string("${Use_Temp}") == "BME"){
+        return id(bme_temp).state;
+      }
+      return -99;
+  
+  - platform: template
+    name: "${Humidity}"
+    id: humidity
+    unit_of_measurement: "%"
+    device_class: "humidity"
+    accuracy_decimals: 0
+    icon: 'mdi:water-percent'
+    filters:
+      - offset: ${Offset_Hum}
+    lambda: |-
+      if (std::string("${Use_Hum}") == "AHT"){
+        return id(aht_hum).state;
+      }
+      else if (std::string("${Use_Hum}") == "BME"){
+        return id(bme_hum).state;
+      }
+      return -99;
+  
+  - platform: template
+    name: "${Pressure}"
+    id: pressure
+    unit_of_measurement: "hPa"
+    device_class: "pressure"
+    icon: 'mdi:gauge'
+    lambda: |-
+      if (std::string("${USE_BME}") == "true"){
+        return id(bme_pres).state;
+      }
+      return -99999;
+
+  # Absolute Humidity
+  - platform: absolute_humidity
+    name: "${Absolute_humidity}"
+    id: Absolute_Humidity
+    temperature: temperature
+    humidity: humidity
+
+  # Dew point
+  - platform: template
+    name: "${Dew_point}"
+    id: Dew_Point
+    unit_of_measurement: °C
+    icon: 'mdi:thermometer-alert'
+    lambda: |-
+      return (243.5*(log(id(humidity).state/100)+((17.67*id(temperature).state)/
+      (243.5+id(temperature).state)))/(17.67-log(id(humidity).state/100)-
+      ((17.67*id(temperature).state)/(243.5+id(temperature).state))));
+

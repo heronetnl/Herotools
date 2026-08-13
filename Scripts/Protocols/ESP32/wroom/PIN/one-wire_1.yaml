@@ -1,0 +1,4 @@
+one_wire:
+  - platform: gpio
+    pin: GPIO16
+    id: one_wire_1

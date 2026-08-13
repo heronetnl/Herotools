@@ -1,0 +1,115 @@
+substitutions:
+  device_name: mes
+  device_friendlyname: Mini_envi_sensor
+  device_discription: "Mini enviroment sensor"
+
+  #### Measurement ####
+  # Type of measurement for temperature: °C for Celcius, °F for Fahrenheit
+  TM: "°C"
+
+  #### I2C Address ####
+  I2C_BME: "0x77"
+  I2C_DISPLAY: "0x3C"
+
+  #### Use temperature sensor ####
+  # AHT, BME, DS18B20. (Default DS18B20)
+  Use_Temp: "AHT"
+
+  #### Use humidity sensor ####
+  # AHT, BME. (Default AHT)
+  Use_Hum: "AHT"
+
+  ### Use bme model using bsec2 ####
+  # BME680, BME688. (Default BME680)
+  Use_bme_model: "BME680"
+
+  #### Display settings ####
+  Change_button: GPIO18
+  Change_time: "120s"
+
+  #### Offset setting ####
+  Offset_Temp: "0"
+  Offset_Hum: "0"
+
+esp32:
+  board: esp32dev
+#esp8266:
+  #board: esp01_1m
+  framework:
+    type: esp-idf
+
+esphome:
+  name: ${device_name}
+  friendly_name: ${device_friendlyname}
+  comment: "${device_discription}"
+  name_add_mac_suffix: false
+  project:
+    name: heronet.${device_name}
+    version: ${version}
+
+wifi:
+  # Remove leading '#' and fill in your wifi details
+  #ssid: !secret wifi_ssid
+  #password: !secret wifi_password
+  # Remove leading '#' if you want to use a hidden ssid
+  #fast_connect: True
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: ${device_name}
+    #password: !secret fallback_password
+    ap_timeout: 30s
+
+ota:
+  - platform: esphome
+    #password !secret ota_password
+
+api:
+  #encryption:
+    #key: !secret api_key
+
+dashboard_import:
+  package_import_url: github://Heronet/herotools/Devices/Heronet/Mes/Mes.yaml@main
+  import_full_config: true
+
+packages:
+  remote_package:
+    url: https://github.com/Heronet/herotools
+    ref: main
+    # Get file's
+    files:
+      # Get basic file
+      - Scripts/Basic.yaml
+
+      # Get language file
+      - Scripts/Language/nl-NL.yaml
+
+      # Get protocols file's
+      - Scripts/Protocols/ESP32/wroom/I2C/i2c_1.yaml
+      - Scripts/Protocols/ESP32/wroom/PIN/one-wire_1.yaml
+
+      # Get sensor file's
+      - Scripts/Sensoren/Dallas/ds18b20.yaml
+      # Type of ath: 10, 20-21-30
+      - Scripts/Sensoren/AHT/20-21-30.yaml
+      # Type of bme: bme280, bme680, bmp085, bmp280, bme68x_bsec2
+      # Use bsec2 only with a esp32 and not esp8266 because the esp8266 doesn't have enough ram.
+      - Scripts/Sensoren/BME/bme68x_bsec2.yaml
+
+      - Scripts/Devices/Heronet/Mes/Main.yaml
+      - Scripts/Devices/Heronet/Mes/Display/I2c/Ssd1306/Sh1106/128x64.yaml
+      # Can only be used if you use bme68x_bsec2
+      - Scripts/Devices/Heronet/Mes/Bme_aiq.yaml
+
+
+    refresh: 0d
+
+web_server:
+  port: 80
+  #auth:
+    #username: !secret web_user
+    #password: !secret web_pass
+
+captive_portal:
+
+mdns:

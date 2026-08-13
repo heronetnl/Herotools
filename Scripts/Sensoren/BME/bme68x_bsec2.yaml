@@ -1,0 +1,37 @@
+---
+substitutions:
+  USE_BME: "true"
+
+bme68x_bsec2_i2c:
+  address: ${I2C_BME}
+  model: ${Use_bme_model}
+  operating_age: 28d
+  supply_voltage: 3.3v
+
+sensor:
+  # BME68X sensor for temperature, pressure, humidity, iaq, gas_resistance, co2 and voc.
+  # All sensor data wil not be send to homeassistent
+  - platform: bme68x_bsec2
+    temperature:
+      id: bme_temp
+      internal: true
+      unit_of_measurement: ${TM}
+    pressure:
+      id: bme_pres
+      internal: true
+    humidity:
+      id: bme_hum
+      internal: true
+    gas_resistance:
+      name: ${Gas_Resistance}
+      id: bme_gas
+      #internal: true
+    iaq:
+      id: bme_aiq
+      internal: true
+    co2_equivalent:
+      id: bme_co2
+      internal: true
+    breath_voc_equivalent:
+      id: bme_voc
+      internal: true

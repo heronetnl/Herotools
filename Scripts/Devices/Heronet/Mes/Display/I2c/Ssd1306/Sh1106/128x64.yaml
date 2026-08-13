@@ -1,0 +1,127 @@
+---
+substitutions:
+  use_display: "true"
+
+font:
+  - file: "gfonts://Roboto"
+    id: small
+    size: 10
+  - file: "gfonts://Roboto"
+    id: medium
+    size: 15
+
+image:
+  - platform: file
+    file: "mdi:thermometer"
+    id: icon_thermometer
+    type: BINARY 
+    resize: 15x15
+  - platform: file
+    file: "mdi:water-percent"
+    id: icon_humidity
+    type: BINARY
+    resize: 15x15
+  - platform: file
+    file: "mdi:gauge"
+    id: icon_pressure
+    type: BINARY
+    resize: 15x15
+  - platform: file
+    file: "mdi:clock-start"
+    id: icon_uptime
+    type: BINARY
+    resize: 10x10
+  - platform: file
+    file: "mdi:ip-network"
+    id: icon_ipnetwork
+    type: BINARY
+    resize: 10x10
+  - platform: file
+    file: "mdi:access-point-network"
+    id: icon_ssid
+    type: BINARY
+    resize: 10x10
+  - platform: file
+    file: "mdi:folder-key-network"
+    id: icon_mac
+    type: BINARY
+    resize: 10x10
+  - platform: file
+    file: "mdi:wifi"
+    id: icon_wifistrenght
+    type: BINARY
+    resize: 10x10
+
+display:
+  - platform: ssd1306_i2c
+    model: "SH1106 128x64"
+    reset_pin: GPIO0
+    address: ${I2C_DISPLAY}
+    id: mes_display
+    pages:
+      - id: Sensors
+        lambda: |-
+          it.image(0, 0, id(icon_thermometer));
+          if (id(temperature).has_state()) {
+            it.printf(15, 0, id(medium), "%.1f°C", id(temperature).state);
+          }
+
+          it.image(65, 0, id(icon_humidity));
+          if (id(humidity).has_state()) {
+            it.printf(80, 0, id(medium), "%.1f%%", id(humidity).state);
+          }
+
+          it.image(0, 25, id(icon_pressure));
+          if (id(pressure).has_state()) {
+            it.printf(15, 25, id(medium), "%.1fhPa", id(pressure).state);
+          }
+
+          it.strftime(0, 64, id(medium), TextAlign::BASELINE_LEFT, "%H:%M:%S-%d/%m/%y", id(homeassistant_time).now());
+
+      - id: Network
+        lambda: |-
+          it.image(0, 0, id(icon_ssid));
+          it.printf(15, 0, id(small), "SSID: %s", id(herotool_netwerk).state.c_str());
+
+          it.image(0, 13, id(icon_ipnetwork));
+          it.printf(15, 13, id(small), "IP: %s", id(herotool_ip_adres).state.c_str());
+
+          it.image(0, 26, id(icon_mac));
+          it.printf(15, 26, id(small), "MAC: %s", id(herotool_mac_adres).state.c_str());
+
+          it.image(0, 39, id(icon_wifistrenght));
+          if (id(herotool_wifi_signal).has_state()) {
+            it.printf(15, 39, id(small), "%.0fdBm", id(herotool_wifi_signal).state);
+          }
+
+          it.image(0, 52, id(icon_uptime));
+          it.printf(15, 52, id(small), "UP: %s", id(uptime_human).state.c_str());
+
+
+script:
+  - id: back_to_page_1
+    mode: restart
+    then:
+      - delay: ${Change_time}
+      - display.page.show: Sensors
+      - component.update: mes_display
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: ${Change_button}
+      mode: INPUT_PULLUP
+    internal: true
+    id: change_but
+    on_press:
+    - if:
+        condition:
+          display.is_displaying_page: Sensors
+        then:
+          - display.page.show: Network
+          - component.update: mes_display
+          - script.execute: back_to_page_1
+        else:
+          - display.page.show: Sensors
+          - component.update: mes_display
+          - script.stop: back_to_page_1
