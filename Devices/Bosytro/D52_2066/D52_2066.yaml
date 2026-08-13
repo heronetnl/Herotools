@@ -39,12 +39,12 @@ api:
     #key: !secret api_key
 
 dashboard_import:
-  package_import_url: github://Heronet/herotools/Devices/Bosytro/D52_2066/D52_2066.yaml@main
+  package_import_url: github://heronetnl/Herotools/Devices/Bosytro/D52_2066/D52_2066.yaml@main
   import_full_config: true
 
 packages:
   remote_package:
-    url: https://github.com/Heronet/herotools
+    url: https://github.com/heronetnl/Herotools
     ref: main
     # Get file's
     files:
