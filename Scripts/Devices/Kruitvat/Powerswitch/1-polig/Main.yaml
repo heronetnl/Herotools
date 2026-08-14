@@ -1,3 +1,6 @@
+substitutions:
+  version: "0.0.1"
+
 logger:
   baud_rate: 0
 
