@@ -62,7 +62,7 @@ wifi:
 
 ota:
   - platform: esphome
-    #password !secret ota_password
+    #password: !secret ota_password
 
 api:
   #encryption:
