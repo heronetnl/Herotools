@@ -5,8 +5,6 @@ substitutions:
 
 bk72xx:
   board: cbu
-  framework:
-    type: esp-idf
 
 esphome:
   name: ${device_name}
@@ -32,7 +30,7 @@ wifi:
 
 ota:
   - platform: esphome
-    #password !secret ota_password
+    #password: !secret ota_password
 
 api:
   #encryption:
