@@ -70,12 +70,15 @@ button:
 
   # Restart button
   - platform: restart
+    id: restart_button
     name: "${device_name} ${Restart}"
 
   # Shutdown button
   - platform: shutdown
+    id: shutdown_button
     name: "${device_name} ${Shutdown}"
 
   # Factory reset
   - platform: factory_reset
+    id: factory_reset_button
     name: "${Factory_reset} ${device_name}"
